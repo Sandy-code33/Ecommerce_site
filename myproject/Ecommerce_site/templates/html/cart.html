@@ -1,0 +1,56 @@
+{% extends 'html/layout.html' %}  <!-- or your layout file -->
+{% load static %}
+    
+{% block content %}
+<section>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <h4>Cart Items</h4>
+        <hr style="border-color: #b8bfc2;">
+    <!-- {% include 'html/message.html' %} -->
+
+      </div>
+
+      <table class="table">
+        <tr class="text-center">
+            <th>Image</th>
+            <th>Product Name</th>
+            <th>Unit</th>
+            <th>Quantity</th>
+            <th>Amount</th>
+            <th>Remove</th>
+        </tr>
+        {% for item in cart %}
+        <tr class="text-center">
+            <td><img class="mx-auto" src="{{item.product.product_image.url}}" height="100px" alt="{{item.Product.name}}"></td>
+            <td>{{item.product.name}}</td>
+            <td>₹{{item.product.selling_price  | stringformat:'d'}}</td>
+            <td>{{item.product_qty}}</td>
+            <td class="amt">{{item.total_cost | stringformat:'d'}}</td>
+            <td><a href="{% url 'remove_cart' item.id %}" onclick="return confirm('Are you sure want to remove ?')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i>Remove</a></td>
+        </tr>
+        {% endfor %}
+        <tr class="text-center">
+            <td></td>
+            <td></td>
+            <td colspan="2" class="fw-bold">Total Amount</td>
+            <td id="net" class="fw-bold"></td>
+            <td><a href="{% url 'checkout' %}"><button class="btn btn-primary btn-sm"><i class="fa fa-check"></i>Checkout</button></a></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</section>
+<script>
+    const nodes=document.querySelectorAll('.amt')
+    const arr=Array.from(nodes);
+    const res=arr.reduce((acc,curr) =>{
+        return acc += Number(curr.textContent)
+    }, 0);
+    document.getElementById("net").innerHTML="Rs : "+res;
+</script>
+
+{% endblock content %}
+</body>
+</html>

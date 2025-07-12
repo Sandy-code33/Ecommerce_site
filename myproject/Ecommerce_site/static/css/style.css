@@ -1,0 +1,90 @@
+.navbar{
+    background-color: rgb(150, 6, 131);
+    z-index: 1000;
+    position: sticky;
+    top: 0%;
+    overflow: hidden;
+}
+.nav-link{
+  color: white;
+}
+.outer_box{
+    background-color: rgb(243, 243, 243);
+    box-sizing: border-box;
+    box-shadow: 20px black;
+    padding: 10px;
+  }
+  .image_frame{
+    display: block;
+    width: 150px;
+    height:150px;
+    margin: 5px auto 0px auto;
+  }
+  .fa-solid{
+    color: blue;
+    cursor: pointer;
+    float: right;
+    margin-right: 15px;
+  }
+  #mob_card{
+    position: static;
+    border-color:rgb(0, 199, 0);
+    text-align: center;
+    font-weight: bold;
+  }
+  #mob_card:hover{
+    transition: 0.2s;
+    transform: scale(1.05);
+    /* transform: translateY(-1.5%); */
+    border-color: blue;
+    /* box-shadow: 5px 5px 10px #888888; */
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+  .carousel-inner{
+position:inherit;
+  }
+  /* Dropdown Button */
+.dropbtn {
+  text-align: center;
+  color: #1525d4;
+  padding: 5px;
+  font-size: 16px;
+  border: none;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+  z-index: 400;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 300;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #dbdbdb;}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {display: block;}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+  background-color: #a0a0a0;
+}
+/* Dashboard ends */
