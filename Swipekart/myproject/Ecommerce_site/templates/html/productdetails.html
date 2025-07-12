@@ -1,0 +1,125 @@
+{% extends 'html/layout.html' %}  <!-- or your layout file -->
+{% load static %}
+
+
+{% block content %}
+<section>
+  <div class="container">
+        <h4>Product Details</h4>
+        <hr style="border-color: #b8bfc2;">
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'collections_view' products.catagory.name %}">collections</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{products}}</li>
+  </ol>
+</nav>
+  {% include 'html/message.html' %}
+  </div>
+
+    <div class="container-fluid">
+        <div class="row g-5">
+          <div class="col-sm-12 col-md-4 col-xl-4 col-xxl-4" style="border: 1px solid black;">
+            {% if products.trending %}
+            <div class="trend">
+              <button class="btn btn-danger">Trending#</button>
+            </div>
+            {% endif %}
+            <img src="{{products.product_image.url}}"  class="img-fluid card mx-auto" alt="products" style="height: 400px; object-fit: contain;">
+          </div>
+          <div class="col-sm-12 col-md-4 col-xl-4 col-xxl-4" style="border: 1px solid red;">
+            <h3>{{products.detail_name}}</h3>
+            <h2>Rs. {{products.original_price}}</h2>
+            <p class="text-danger">M.R.P :<s>₹{{products.selling_price}}</s></p>
+            <p>
+              <span class="fw-bold">Description : </span>
+              {{products.description}}
+            </p>
+          </div>
+          <div class="col-sm-12 col-md-4 col-xl-4 col-xxl-4" style="border: 1px solid orangered;">
+            <h2><sup>₹</sup>{{products.original_price}}<sup>00</sup></h2>
+            <p>Ships from : {{products.ship_from}} </p>
+            <p>Sold by : {{products.vendor}}</p>
+            <p class="text-primary">Payment : {{products.payment}}</p>
+            {% if products.quantity > 0 %}
+            <h3 class="text-success">In stock</h3>
+            <input type="hidden" value="{{products.id}}" id="pid">
+            <p>
+              <div class="input-group w-10">
+                <button class="input-group-text bg-success text-light" id="btnMinus"><i class="fa fa-minus"></i></button>
+                <input type="text" name="qty" id="txtQty" value="1" class="form-control text-center">
+                <button class="input-group-text bg-success text-light" id="btnPlus"><i class="fa fa-plus"></i></button>
+              </div>
+            </p>
+            {% else %}
+            <h3 class="text-danger">Out of stock</h3>
+            {% endif %}
+              <button class="btn btn-warning" id="btnCart"><i class="fa fa-shopping-cart"></i>Add to Cart</button>
+              <!-- <button class="btn btn-danger"><i class="fa fa-heart"></i></button> -->
+          </div>
+        </div>
+    </div>
+    
+</section>
+<script>
+  document.addEventListener("DOMContentLoaded", function(event){
+  const btnPlus = document.getElementById("btnPlus");
+  const txtQty = document.getElementById("txtQty");
+  const btnMinus = document.getElementById("btnMinus");
+  const pid = document.getElementById("pid");
+  const btnCart = document.getElementById("btnCart");
+
+
+btnPlus.addEventListener("click",function(){
+  let qty=parseInt(txtQty.value,10);
+  qty=isNaN(qty)?0:qty;
+  if (qty<10){
+    qty++;
+    txtQty.value=qty;
+  }
+})
+
+ btnMinus.addEventListener("click",function(){
+  let qty=parseInt(txtQty.value,10);
+  qty=isNaN(qty)?0:qty;
+  if (qty>1){
+    qty--;
+    txtQty.value=qty;
+  }
+})
+
+btnCart.addEventListener("click",function(){
+   let qty=parseInt(txtQty.value,10);
+  qty=isNaN(qty)?0:qty;
+
+  if (qty>0){
+    let postObj= {
+      'product_qty': qty,
+      'pid': pid.value
+    }
+    //console.log(postObj)
+    fetch("/addtocart",{
+      method:'POST',
+      credentials:"same-origin",
+      headers:{
+        'Accecpt':'application/json',
+        'X-Requested-With':'XMLHttpRequest',
+        'X-CSRFToken':'{{ csrf_token }}',
+      },
+      body: JSON.stringify(postObj)
+    }).then(response => {
+      return response.json();
+    }).then(data => {
+      //console.log(data);
+      alert(data['status']);
+    } )
+ 
+
+  } else{
+    alert("please enter your Quantity")
+  }
+ 
+})
+  }); 
+</script>
+{% endblock content %}

@@ -1,0 +1,203 @@
+{% extends 'html/layout.html' %}  <!-- or your layout file -->
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" integrity="sha384-tViUnnbYAV00FLIhhi3v/dWt3Jxw4gZQcNoSCxCIFNJVCx7/D55/wXsrNIRANwdD" crossorigin="anonymous">
+      <!--icon -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+</head>
+<body>
+     <!--navigation bar-->
+  <!-- <nav class="navbar navbar-expand-lg navbar-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#"><img src="{% static 'images/ecom logo new.png' %}" alt="Logo" width="200px" height="50px"></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="nav-link active" aria-current="page" href="#">Home</a>
+        <a class="nav-link" href="#"><i class="fa fa-sign-in"></i>Register</a>
+        <a class="nav-link" href="{% url 'collections' %}">collections</a>
+        <a class="nav-link" href="#"><i class="fa fa-shopping-cart"></i>Cart</a>
+      </div>
+    </div>€
+  </div>
+</nav> -->
+   <!--Navigation Ends-->
+   
+   {% block content %}
+                    {% include 'html/message.html' %}
+
+   <!--Carousel-->
+    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="{% static 'images/car1.jpg' %}" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item">
+          <img src="{% static 'images/car2.jpg' %}" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item">
+          <img src="{% static 'images/car3.jpg' %}" class="d-block w-100" alt="...">
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+    <!-- carousel ends -->
+
+    
+
+    <div class="container-fluid mt-5">
+      <div class="row g-2">
+          <div class="col-sm-4 col-md-6 col-lg-4 col-xxl-4 outer_box">
+            <h5>Summer Fashion <a href="{% url 'collections' %}" role="button"><i class="fa-solid fa-circle-chevron-right"></i></a></h3>
+            <div class="row g-2">
+              <div class="col-6">
+                <div class="p-3 border bg-light">
+                    <img class="image_frame" src="https://img.freepik.com/free-photo/fashion-woman-with-clothes_1203-8302.jpg?t=st=1743583451~exp=1743587051~hmac=53e6016c658c6f8f2e85053ae220ce001913b355c094ef23bbf352584b00b4d3&w=740" alt="">
+                    <p>Baby Wear</p>
+                    <h5 class="text-success">Min. 70% Off</h5>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="p-3 border bg-light">                    
+                  <img class="image_frame" src="https://img.freepik.com/free-photo/young-beautiful-woman-looking-camera-hat-trendy-girl-casual-summer-white-t-shirt-yellow-skirt-round-sunglasses-positive-female-shows-facial-emotions-funny-model-isolated-blue_158538-15849.jpg?t=st=1743583522~exp=1743587122~hmac=11603bb4ac101fe1c6066da309755b4ea0f766f7872a22abee7a928e4861044e&w=1060" alt="">
+                  <p>Trendy fits</p>
+                  <h5 class="text-success">Upto 50% Off</h5>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="p-3 border bg-light">
+                  <img class="image_frame" src="https://img.freepik.com/free-photo/handsome-hipster-model-man-stylish-summer-clothes-posing-hat_158538-14721.jpg?t=st=1743583812~exp=1743587412~hmac=b093e6f6682d7ea9e64ead7856743bc58545cfbca0f6ac135af842ccad274c7d&w=740" alt="">
+                  <p>Cool fit</p>                  
+                  <h5 class="text-success">65% Off</h5>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="p-3 border bg-light">
+                  <img class="image_frame" src="https://img.freepik.com/free-photo/baby-clothes-boys-wooden-background_93675-132866.jpg?t=st=1743583912~exp=1743587512~hmac=d4ecc1627d75edc571dc16462209414f3051dd8f580952e753fac9dcabb6b257&w=740" alt="">
+                  <p>Baby Soft</p>
+                  <h5 class="text-success">30% Off</h5>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-4 col-md-6 col-lg-4 col-xxl-4 outer_box">
+            <h5>Appliances for Cool Summer<i class="fa-solid fa-circle-chevron-right"></i></h3>
+            <div class="row g-2">
+              <div class="col-6">
+                <div class="p-3 border bg-light">
+                  <img class="image_frame" src="https://img.freepik.com/free-photo/close-up-man-selfcare-products_23-2149313024.jpg?t=st=1743585195~exp=1743588795~hmac=4eca06ba5363fa9b508165f256ed97a06e4b8b20ce813c7dddb907dc5f461c2a&w=1380" alt="">
+                  <p>Trimmers</p>
+                  <h5 class="text-success">Min. 50% Off</h5>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="p-3 border bg-light">
+                  <img class="image_frame" src="https://img.freepik.com/free-vector/drone-collection-with-realistic-style_23-2147713105.jpg?t=st=1743585382~exp=1743588982~hmac=77401981ca3ae6beeadcc958b225d2e801ba0e9b3c0ff0160a088a598b63f2ac&w=826" alt="">
+                  <p>Cameras</p>
+                  <h5 class="text-success">Min. 30% Off</h5>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="p-3 border bg-light">
+                  <img class="image_frame" src="https://img.freepik.com/free-psd/evaporative-cooler-isolated-transparent-background_191095-29122.jpg?t=st=1743585511~exp=1743589111~hmac=846029b3cdcef3837ff03801df0199cd05875dcb181d2ff1c7b40d59cbe5d11f&w=826" alt="">
+                  <p>Air Coolers</p>
+                  <h5 class="text-success">Min. 50% Off</h5>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="p-3 border bg-light">
+                  <img class="image_frame" src="https://img.freepik.com/free-vector/barber-shop-hairdresser-styling-tools-realistic-collection-with-hairdryer-scissors-trimmer-clipper-shaving-brush-isolated-vector-illustration_1284-30214.jpg?t=st=1743585608~exp=1743589208~hmac=21fb48395c454386274fca19b0ae1883f0f5524d41f94be7522f3ce4c01b97a7&w=826" alt="">
+                  <p>Grooming Kit</p>
+                  <h5 class="text-success">Min. 50% Off</h5>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-4 col-md-6 col-lg-4 col-xxl-4 outer_box">
+            <h5>Season's Top Picks<i class="fa-solid fa-circle-chevron-right"></i></h3>
+            <div class="row g-2">
+              <div class="col-6">
+                <div class="p-3 border bg-light">
+                  <img class="image_frame" src="https://img.freepik.com/free-photo/portrait-young-woman-wearing-tradition-sari-garment_52683-90222.jpg?t=st=1743585775~exp=1743589375~hmac=ca2a77d9827e2773a11024288b3de344848c52d80798d69f9a07d873b5df3ba2&w=740" alt="">
+                  <p>Women Saree's</p>
+                  <h5 class="text-success">Widest range</h5>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="p-3 border bg-light">
+                  <img class="image_frame" src="https://img.freepik.com/free-photo/collection-small-perfume-bottles_53876-18283.jpg?t=st=1743586111~exp=1743589711~hmac=af63a80896319f367786dd55f3c7829842ad7be89640153479473fb28f0a04ba&w=740" alt="">
+                  <p>Fragrances</p>
+                  <h5 class="text-success">Special Offer</h5>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="p-3 border bg-light">
+                  <img class="image_frame" src="https://img.freepik.com/free-photo/nuts-set-table_140725-9937.jpg?t=st=1743586198~exp=1743589798~hmac=207a7865ca724f2961cb9739c466817a992fcb20a448178a6d4f7b9412f0de13&w=996" alt="">
+                  <p>Dry Fruits & Nuts</p>
+                  <h5 class="text-success">Min. 50% Off</h5>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="p-3 border bg-light">
+                  <img class="image_frame mx-auto d-block" src="https://img.freepik.com/free-photo/portrait-woman-beautiful-grey-dress_1303-13052.jpg?t=st=1743586266~exp=1743589866~hmac=c8618c346cb6d131530c415ca015819dad75bdb4d76f77c96f8e06a984accb79&w=740" alt="">
+                  <p>Women's Gown</p>
+                  <h5 class="text-success">Min. 50% Off</h5>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+
+<div class="container-fluid mt-3">
+  <div class="row g-3">
+        <h3>Exclusive Trending Deals</h3>
+        <hr style="border-color: #b8bfc2;">
+      {% for item in products %}
+        <div class="col-sm-2 col-md-6 col-lg-2 col-xxl-2 mb-3">
+          <div class="card h-100">
+            <img src="{{item.product_image.url}}"  class="card-image-top" alt="{{item.name}}" style="height: 150px; object-fit: contain;">
+              <a href="{% url 'product_details' item.catagory.name item.name %}" style="text-decoration: none; color: black;">
+                <div class="card-body">
+                  <p class="card-title">{{item.name}}</p>
+                  <p class="card-text">
+                    <span class="float-start text-muted text-danger"><s>₹{{ item.original_price }}</s></span>
+                    <span class="float-end text-success fw-bold">₹{{item.selling_price}}</span>
+                  </p>
+                </div>
+              </a>
+          </div>
+        </div>
+      {% endfor %}
+  </div>
+</div>
+
+
+{% endblock %}
+
+
+
+</body>
+</html>
