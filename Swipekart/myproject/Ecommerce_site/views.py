@@ -33,7 +33,7 @@ def register(request):
 
 def login_view(request):
     if request.user.is_authenticated:
-        return redirect('/home')
+        return redirect('home')
     else:
         if request.method== 'POST':
             name=request.POST.get('username')
@@ -42,17 +42,17 @@ def login_view(request):
             if user is not None:
                 login(request,user)
                 messages.success(request,"Logged in Successfully")
-                return redirect('/home')
+                return redirect('home')
             else:
                 messages.error(request,"Invalid Username or Password")
-                return redirect('/login')
+                return redirect('login')
         return render(request,'html/login.html')
 
 def logout_view(request):
     if request.user.is_authenticated:
         logout(request)
         messages.success(request,"Logged out Succesfully")
-    return redirect('/home')
+    return redirect('home')
     
 def collections(request):
     category=Category.objects.filter(status=0)
