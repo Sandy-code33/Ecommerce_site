@@ -1,0 +1,32 @@
+{% extends 'html/layout.html' %}
+{% load static %}
+{% block content %}
+<div class="container mt-4">
+  <h2 class="mb-4">👤 My Profile</h2>
+
+  <div class="card mb-4">
+    <div class="card-body">
+      <h5 class="card-title">📍 Saved Addresses</h5>
+      {% for address in addresses %}
+      <div class="border p-3 mb-3 rounded position-relative">
+        <strong>{{ address.full_name }}</strong><br>
+        {{ address.phone }}<br>
+        {{ address.address_line1 }}, {{ address.address_line2 }}<br>
+        {{ address.city }}, {{ address.state }} - {{ address.postal_code }}<br>
+        {{ address.country }}
+        {% if address.is_default %}
+          <span class="badge bg-success ms-2">Default</span>
+        {% endif %}
+        <div class="mt-2">
+          <a href="{% url 'edit_address' address.id %}" class="btn btn-sm btn-outline-primary">Edit</a>
+          <a href="{% url 'delete_address' address.id %}" class="btn btn-sm btn-outline-danger">Delete</a>
+        </div>
+      </div>
+      {% empty %}
+        <p>No address found.</p>
+      {% endfor %}
+      <a href="{% url 'add_address' %}" class="btn btn-primary mt-3">➕ Add New Address</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

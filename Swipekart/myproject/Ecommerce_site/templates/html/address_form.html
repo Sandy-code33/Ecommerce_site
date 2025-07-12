@@ -1,0 +1,12 @@
+{% extends 'html/layout.html' %}
+{% block content %}
+<div class="container mt-4">
+  <h3>{{ form.instance.id|yesno:"Edit Address,Add New Address" }}</h3>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">Save</button>
+    <a href="{% url 'profile' %}" class="btn btn-secondary">Cancel</a>
+  </form>
+</div>
+{% endblock %}

@@ -1,9 +1,12 @@
 .navbar{
-    background-color: #2a2a2a;
+    background-color: rgb(150, 6, 131);
     z-index: 1000;
     position: sticky;
     top: 0%;
     overflow: hidden;
+}
+.nav-link{
+  color: white;
 }
 .outer_box{
     background-color: rgb(243, 243, 243);

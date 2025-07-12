@@ -7,6 +7,14 @@ from django.contrib.auth.decorators import login_required
 from .forms import CustomUserForm
 from django.http import JsonResponse
 import json
+from django.shortcuts import get_object_or_404
+from .models import Address
+from .forms import AddressForm
+from django.db import transaction
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+
+from .models import Cart, Address, Order, OrderItem   # make sure Order/OrderItem exist
 # Create your views here.
 
 def home(request):
@@ -106,3 +114,122 @@ def remove_cart(request,cid):
     cartitem=Cart.objects.get(id=cid)
     cartitem.delete()
     return redirect('/cart')
+
+def checkout(request):
+    return render(request,'html/checkout.html',)
+    #return messages.success(request,'ThankYou for Purchasing with Swipekart...!')
+
+def profile_view(request):
+    addresses = Address.objects.filter(user=request.user)
+    return render(request, 'html/profile.html', {'addresses': addresses})
+
+def add_address(request):
+    if request.method == 'POST':
+        form = AddressForm(request.POST)
+        if form.is_valid():
+            address = form.save(commit=False)
+            address.user = request.user
+            address.save()
+            return redirect('profile')
+    else:
+        form = AddressForm()
+    return render(request, 'html/address_form.html', {'form': form})
+
+def edit_address(request, id):
+    address = get_object_or_404(Address, id=id, user=request.user)
+    if request.method == 'POST':
+        form = AddressForm(request.POST, instance=address)
+        if form.is_valid():
+            form.save()
+            return redirect('profile')
+    else:
+        form = AddressForm(instance=address)
+    return render(request, 'html/address_form.html', {'form': form})
+
+def delete_address(request, id):
+    address = get_object_or_404(Address, id=id, user=request.user)
+    address.delete()
+    return redirect('profile')
+
+def checkout(request):
+    cart_items = Cart.objects.filter(user=request.user)
+    addresses = Address.objects.filter(user=request.user)
+    return render(request, 'html/checkout.html', {'cart': cart_items, 'addresses': addresses})
+
+@login_required
+def checkout(request):
+    """Show address list, payment options and cart preview."""
+    cart_items = Cart.objects.select_related('product').filter(user=request.user)
+    if not cart_items.exists():
+        messages.info(request, "Your cart is empty.")
+        return redirect('cart')        # tweak to your cart‑view URL
+
+    addresses = Address.objects.filter(user=request.user)
+    return render(
+        request,'html/checkout.html',{'cart': cart_items,'addresses': addresses,})
+
+
+@login_required
+@transaction.atomic
+def place_order(request):
+    """Convert the cart into an Order + OrderItems, then clear the cart."""
+    if request.method != 'POST':
+        return redirect('checkout')
+
+    # ----------------------------- 1. Validate form input ------------------- #
+    address_id = request.POST.get('selected_address')
+    payment_method = request.POST.get('payment_method')
+
+    if not address_id:
+        messages.error(request, "Please choose a delivery address.")
+        return redirect('checkout')
+    if not payment_method:
+        messages.error(request, "Please choose a payment method.")
+        return redirect('checkout')
+
+    address = get_object_or_404(Address, id=address_id, user=request.user)
+    cart_items = Cart.objects.select_related('product').filter(user=request.user)
+    if not cart_items.exists():
+        messages.error(request, "Your cart is empty.")
+        return redirect('checkout')
+
+    # Create the order
+    order_total = sum(item.total_cost for item in cart_items)
+
+    order = Order.objects.create(user=request.user,address=address,payment_method=payment_method,total_amount=order_total,status='Confirmed') # or whatever default you use
+
+    # Order items
+    OrderItem.objects.bulk_create([
+        OrderItem(order=order,product=item.product,quantity=item.product_qty,price=item.product.selling_price,subtotal=item.total_cost)
+        for item in cart_items])
+    cart_items.delete()
+    messages.success(request, "Order placed successfully! 🎉")
+    return redirect('order_success', order_id=order.id)
+
+@login_required
+def order_success(request, order_id):
+    order = get_object_or_404(Order, id=order_id, user=request.user)
+    return render(request, 'html/order_success.html', {'order': order})
+
+@login_required
+def my_orders(request):
+    orders = Order.objects.filter(user=request.user).order_by('-created_at')
+    return render(request, 'html/my_orders.html', {'orders': orders})
+
+@login_required
+def download_invoice(request, order_id):
+    order = get_object_or_404(Order, id=order_id, user=request.user)
+    template_path = 'html/invoice_template.html'
+    context = {'order': order}
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="invoice_{order.id}.pdf"'
+
+    template = get_template(template_path)
+    html = template.render(context)
+
+    pisa_status = pisa.CreatePDF(html, dest=response)
+
+    if pisa_status.err:
+        return HttpResponse('Invoice generation failed', status=500)
+    return response
