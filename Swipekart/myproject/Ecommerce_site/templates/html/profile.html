@@ -2,11 +2,12 @@
 {% load static %}
 {% block content %}
 <div class="container mt-4">
-  <h2 class="mb-4">👤 My Profile</h2>
+  <h2 class="mb-4">My Profile</h2>
+        <hr style="border-color: #b8bfc2;">
 
   <div class="card mb-4">
     <div class="card-body">
-      <h5 class="card-title">📍 Saved Addresses</h5>
+      <h5 class="card-title">Saved Addresses</h5>
       {% for address in addresses %}
       <div class="border p-3 mb-3 rounded position-relative">
         <strong>{{ address.full_name }}</strong><br>
@@ -25,7 +26,7 @@
       {% empty %}
         <p>No address found.</p>
       {% endfor %}
-      <a href="{% url 'add_address' %}" class="btn btn-primary mt-3">➕ Add New Address</a>
+      <a href="{% url 'add_address' %}" class="btn btn-primary mt-3"><i class="fa fa-plus"></i> Add New Address</a>
     </div>
   </div>
 </div>

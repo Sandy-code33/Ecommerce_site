@@ -11,13 +11,17 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
-
+<style>
+  a{
+    text-decoration: none;
+  }
+</style>
 </head>
 <body>
     
 {% block content %}
 <section>
-  <div class="container-fluid">
+  <div class="container mt-5">
     <div class="row">
       <div class="col-12">
         <h4>Shop by Categories</h4>
@@ -33,11 +37,11 @@
       </div>
 {% for item in category %}
         <div class="col-sm-6 col-md-4 col-lg-2 col-xl-2 col-xxl-2">
-          <div class="card">
+          <div class="card border-0">
             <img src="{{item.image.url}}" style="width: 100px; height: 100px;" class="mx-auto card-image-top" alt="categories">
-            <a href="{% url 'collections_view' item.name %}">
+            <a href="{% url 'collections_view' item.name %}" style="text-decoration: none; color: black;">
             <div class="card-body">
-              <h5 class="card-title text-primary">{{item.name}}</h5>
+              <h5 class="card-title">{{item.name}}</h5>
               <p class="card-text">{{item.description}}</p>
               <!-- <a href="" class="btn btn-warning btn-sm">Shop now</a> -->
             </div>
