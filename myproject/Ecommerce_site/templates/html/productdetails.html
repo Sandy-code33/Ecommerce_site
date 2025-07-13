@@ -19,7 +19,7 @@
 
     <div class="container-fluid">
         <div class="row g-5">
-          <div class="col-sm-12 col-md-4 col-xl-4 col-xxl-4" style="border: 1px solid black;">
+          <div class="col-sm-12 col-md-4 col-xl-4 col-xxl-4 bg-light">
             {% if products.trending %}
             <div class="trend">
               <button class="btn btn-danger">Trending#</button>
@@ -27,17 +27,17 @@
             {% endif %}
             <img src="{{products.product_image.url}}"  class="img-fluid card mx-auto" alt="products" style="height: 400px; object-fit: contain;">
           </div>
-          <div class="col-sm-12 col-md-4 col-xl-4 col-xxl-4" style="border: 1px solid red;">
+          <div class="col-sm-12 col-md-4 col-xl-6 col-xxl-6 bg-light">
             <h3>{{products.detail_name}}</h3>
-            <h2>Rs. {{products.original_price}}</h2>
-            <p class="text-danger">M.R.P :<s>₹{{products.selling_price}}</s></p>
+            <h2>Rs. {{products.selling_price  | stringformat:'d' }}</h2>
+            <p class="text-danger">M.R.P :<s>₹{{products.original_price  | stringformat:'d'}}</s></p>
             <p>
               <span class="fw-bold">Description : </span>
               {{products.description}}
             </p>
           </div>
-          <div class="col-sm-12 col-md-4 col-xl-4 col-xxl-4" style="border: 1px solid orangered;">
-            <h2><sup>₹</sup>{{products.original_price}}<sup>00</sup></h2>
+          <div class="col-sm-12 col-md-4 col-xl-2 col-xxl-2 bg-light" style="border: 1px solid rgb(231, 208, 0); border-radius: 10px; padding: 20px;">
+            <h2><sup>₹</sup>{{products.selling_price  | stringformat:'d'}}<sup>00</sup></h2>
             <p>Ships from : {{products.ship_from}} </p>
             <p>Sold by : {{products.vendor}}</p>
             <p class="text-primary">Payment : {{products.payment}}</p>
@@ -45,7 +45,7 @@
             <h3 class="text-success">In stock</h3>
             <input type="hidden" value="{{products.id}}" id="pid">
             <p>
-              <div class="input-group w-10">
+              <div class="input-group w-50">
                 <button class="input-group-text bg-success text-light" id="btnMinus"><i class="fa fa-minus"></i></button>
                 <input type="text" name="qty" id="txtQty" value="1" class="form-control text-center">
                 <button class="input-group-text bg-success text-light" id="btnPlus"><i class="fa fa-plus"></i></button>
