@@ -9,7 +9,12 @@
         <h4>Cart Items</h4>
         <hr style="border-color: #b8bfc2;">
     <!-- {% include 'html/message.html' %} -->
-
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a class="text-success" href="{% url 'home' %}">Home</a></li>
+    <li class="breadcrumb-item"><a class="text-success" href="{% url 'collections'%}">Collections</a></li>
+  </ol>
+</nav>
       </div>
 
       <table class="table">

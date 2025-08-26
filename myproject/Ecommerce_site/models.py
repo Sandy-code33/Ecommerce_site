@@ -4,6 +4,13 @@ import datetime
 import os
 # Create your models here.
 
+class Feedback(models.Model):
+    rating = models.IntegerField()
+    remark = models.TextField()
+
+    def __str__(self):
+        return f"{self.rating} - {self.remark[:20]}"
+
 def getFileName(request,filename):
     now_time=datetime.datetime.now().strftime("%Y%m%d%H:%M:%S")
     new_filename="%s%s"%(now_time,filename)

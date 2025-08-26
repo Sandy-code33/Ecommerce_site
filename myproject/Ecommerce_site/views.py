@@ -13,6 +13,7 @@ from .forms import AddressForm
 from django.db import transaction
 from django.template.loader import get_template
 from xhtml2pdf import pisa
+from .models import Feedback
 
 from .models import Cart, Address, Order, OrderItem   # make sure Order/OrderItem exist
 # Create your views here.
@@ -20,6 +21,19 @@ from .models import Cart, Address, Order, OrderItem   # make sure Order/OrderIte
 def home(request):
     products=Product.objects.filter(trending=1)
     return render(request,'html/home.html',{"products":products})
+
+def feedback_form(request):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            rating = request.POST.get('rating')
+            remark = request.POST.get('remark')
+            Feedback.objects.create(rating=rating, remark=remark,)
+            return JsonResponse({'message': 'Feedback submitted successfully!'})
+        return render(request,'html/feedback.html')
+    else:
+        #return JsonResponse({'message':'Login to Proceed'})
+        messages.warning(request,"Login to Proceed")
+        return redirect('home')
 
 def register(request):
     form = CustomUserForm()
@@ -84,8 +98,6 @@ def add_to_cart(request):
             data=json.load(request)
             product_qty=data['product_qty']
             product_id=data['pid']
-            #print(request.user.id)
-
             product_status=Product.objects.get(id=product_id)
             if product_status:
                 if Cart.objects.filter(user=request.user.id,product_id=product_id):
@@ -94,7 +106,6 @@ def add_to_cart(request):
                     if product_status.quantity>=product_qty:
                         Cart.objects.create(user=request.user,product_id=product_id,product_qty=product_qty)
                         return JsonResponse({'status':'Product Added in Cart'},status=200)
-                        #return messages.success(request,"Product Added successfully")
 
                     else:
                         return JsonResponse({'status':'Product Stock not available'},status=200)
@@ -114,10 +125,6 @@ def remove_cart(request,cid):
     cartitem=Cart.objects.get(id=cid)
     cartitem.delete()
     return redirect('/cart')
-
-def checkout(request):
-    return render(request,'html/checkout.html',)
-    #return messages.success(request,'ThankYou for Purchasing with Swipekart...!')
 
 def profile_view(request):
     addresses = Address.objects.filter(user=request.user)
@@ -158,12 +165,10 @@ def checkout(request):
 
 @login_required
 def checkout(request):
-    """Show address list, payment options and cart preview."""
     cart_items = Cart.objects.select_related('product').filter(user=request.user)
     if not cart_items.exists():
         messages.info(request, "Your cart is empty.")
-        return redirect('cart')        # tweak to your cart‑view URL
-
+        return redirect('cart')       
     addresses = Address.objects.filter(user=request.user)
     return render(
         request,'html/checkout.html',{'cart': cart_items,'addresses': addresses,})
@@ -172,38 +177,30 @@ def checkout(request):
 @login_required
 @transaction.atomic
 def place_order(request):
-    """Convert the cart into an Order + OrderItems, then clear the cart."""
     if request.method != 'POST':
         return redirect('checkout')
-
-    # ----------------------------- 1. Validate form input ------------------- #
     address_id = request.POST.get('selected_address')
     payment_method = request.POST.get('payment_method')
-
     if not address_id:
         messages.error(request, "Please choose a delivery address.")
         return redirect('checkout')
     if not payment_method:
         messages.error(request, "Please choose a payment method.")
         return redirect('checkout')
-
     address = get_object_or_404(Address, id=address_id, user=request.user)
     cart_items = Cart.objects.select_related('product').filter(user=request.user)
     if not cart_items.exists():
         messages.error(request, "Your cart is empty.")
         return redirect('checkout')
-
-    # Create the order
     order_total = sum(item.total_cost for item in cart_items)
+    order = Order.objects.create(user=request.user,address=address,payment_method=payment_method,total_amount=order_total,status='Confirmed')
 
-    order = Order.objects.create(user=request.user,address=address,payment_method=payment_method,total_amount=order_total,status='Confirmed') # or whatever default you use
-
-    # Order items
+    
     OrderItem.objects.bulk_create([
         OrderItem(order=order,product=item.product,quantity=item.product_qty,price=item.product.selling_price,subtotal=item.total_cost)
         for item in cart_items])
     cart_items.delete()
-    messages.success(request, "Order placed successfully! 🎉")
+    messages.success(request, "Order placed successfully!")
     return redirect('order_success', order_id=order.id)
 
 @login_required
