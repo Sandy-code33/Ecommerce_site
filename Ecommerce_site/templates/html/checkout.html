@@ -1,0 +1,115 @@
+{% extends 'html/layout.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+  <h4>Select Delivery Address</h4>
+
+  <form method="post" action="{% url 'place_order' %}">
+    {% csrf_token %}
+    <div class="row mb-4">
+      {% for address in addresses %}
+      <div class="col-md-6">
+        <div class="card mb-2">
+          <div class="card-body">
+            <input type="radio" name="selected_address" value="{{ address.id }}" id="addr{{ address.id }}" {% if forloop.first %}checked{% endif %}>
+            <label for="addr{{ address.id }}">
+              <strong>{{ address.full_name }}</strong><br>
+              {{ address.phone }}<br>
+              {{ address.address_line1 }}, {{ address.address_line2 }}<br>
+              {{ address.city }}, {{ address.state }} - {{ address.postal_code }}<br>
+              {{ address.country }}
+            </label>
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <p>No saved addresses. <a href="{% url 'add_address' %}">Add one</a>.</p>
+      {% endfor %}
+    </div>
+
+    <h4>Choose Your Payment Method</h4>
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="payment_method" value="card" id="payCard" required>
+      <label class="form-check-label" for="payCard">
+        Credit or Debit Card
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="payment_method" value="netbanking" id="payNetBanking">
+      <label class="form-check-label" for="payNetBanking">
+        Net Banking
+        <select name="netbank_option" class="form-select form-select-sm mt-1">
+          <option value="">Choose an option</option>
+          <option value="Axis Bank">Axis Bank</option>
+          <option value="HDFC Bank">HDFC Bank</option>
+          <option value="SBI">State Bank of India</option>
+        </select>
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="payment_method" value="upi" id="payUPI">
+      <label class="form-check-label" for="payUPI">
+        Other UPI Apps
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="payment_method" value="cod" id="payCOD">
+      <label class="form-check-label" for="payCOD">
+        Cash on Delivery / Pay on Delivery <br>
+        <small class="text-muted">Cash, UPI, and Cards accepted.</small>
+      </label>
+    </div>
+
+    <hr class="my-4">
+
+    <h4>Cart Items</h4>
+    <table class="table">
+      <thead>
+        <tr class="text-center">
+          <th>Image</th>
+          <th>Product Name</th>
+          <th>Unit</th>
+          <th>Quantity</th>
+          <th>Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in cart %}
+        <tr class="text-center">
+          <td><img src="{{ item.product.product_image.url }}" height="80px" alt="{{ item.product.name }}"></td>
+          <td>{{ item.product.name }}</td>
+          <td>₹{{ item.product.selling_price|floatformat:0 }}</td>
+          <td>{{ item.product_qty }}</td>
+          <td class="amt">₹{{ item.total_cost|floatformat:0 }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+      <tfoot>
+        <tr class="text-center">
+          <td colspan="4" class="fw-bold">Total Amount</td>
+          <td id="net" class="fw-bold">Rs: 0</td>
+        </tr>
+      </tfoot>
+    </table>
+
+    <div class="text-end">
+      <button type="submit" class="btn btn-success btn-lg mt-3">
+        <i class="fa fa-check"></i> Place Order
+      </button>
+    </div>
+  </form>
+</div>
+
+<script>
+  // Calculate total
+  const nodes = document.querySelectorAll('.amt');
+  const arr = Array.from(nodes);
+  const total = arr.reduce((acc, curr) => {
+    const amount = parseFloat(curr.textContent.replace(/[^\d.]/g, '')) || 0;
+    return acc + amount;
+  }, 0);
+  document.getElementById("net").textContent = "Rs: " + total;
+</script>
+
+{% endblock %}

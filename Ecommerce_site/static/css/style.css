@@ -1,0 +1,45 @@
+.navbar{
+    background-color: rgb(150, 6, 131);
+    z-index: 1000;
+    position: sticky;
+    top: 0%;
+    overflow: hidden;
+}
+.nav-link{
+  color: white;
+}
+.outer_box{
+    background-color: rgb(243, 243, 243);
+    box-sizing: border-box;
+    box-shadow: 20px black;
+    padding: 10px;
+  }
+  .image_frame{
+    display: block;
+    width: 150px;
+    height:150px;
+    margin: 5px auto 0px auto;
+  }
+  .fa-solid{
+    color: blue;
+    cursor: pointer;
+    float: right;
+    margin-right: 15px;
+  }
+  
+  .carousel-inner{
+position:inherit;
+  }
+
+
+.submitted {
+            border-color: #198754 !important;
+        }
+        .star {
+            font-size: 30px;
+            color: grey;
+            cursor: pointer;
+        }
+        .selected {
+            color: orange;
+        }

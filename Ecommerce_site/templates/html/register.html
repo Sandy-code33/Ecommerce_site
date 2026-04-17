@@ -1,0 +1,84 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+  
+        body
+        {
+            background-image: url("{% static 'images/back.jpg' %}");
+            background-repeat: no-repeat;
+            background-size: cover;
+            }
+        .login-form{
+          background-color: white;
+        }
+        
+        
+        </style>
+</head>
+
+<body class="d-flex align-items-center justify-content-center vh-100">
+    <div class="container h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100 log_outer">
+          <div class="col col-xl-8">
+            <div class="card" style="border-radius: 1rem;">
+              <div class="row g-0" style="border-radius: 1rem;">
+                <div class="col-md-6 d-flex align-items-center">
+                  <div class="card-body p-5 text-black">
+                        <h2 class="fw-normal mb-1 pb-1 text-primary" style="letter-spacing: 1px;">Create your account</h2>
+                                            {% include 'html/message.html' %}
+
+                        <form method="post">
+                          {% csrf_token %}
+                              <div class="mb-4">
+                                <label for="" class="form-labeel">Username :</label>
+                              {{form.username}}
+                              {% if form.errors.username %}
+                                <label for="" class="text-danger">{{form.errors.username}}</label>
+                              {% endif %}          
+                              </div>
+                              <div class="mb-4">
+                                <label for="" class="form-labeel">Email :</label>
+                              {{form.email}}
+                              {% if form.errors.email %}
+                                <label for="" class="text-danger">{{form.errors.email}}</label>
+                              {% endif %}
+                              </div>
+                              <div class="mb-4">                                
+                                <label for="" class="form-labeel">Password :</label>
+                              {{form.password1}}
+                              {% if form.errors.password1 %}
+                                <label for="" class="text-danger">{{form.errors.password1}}</label>
+                              {% endif %}
+                              </div>
+                              <div class="mb-4">            
+                                <label for="" class="form-labeel">Confirm Password :</label>
+                              {{form.password2}}
+                              {% if form.errors.password2 %}
+                                <label for="" class="text-danger">{{form.errors.password2}}</label>
+                              {% endif %}
+                              </div>
+                          <button type="submit" class="btn btn-primary w-100">Register</button>
+                      </form>
+                      
+                        <p class="text-center mt-3">Already have an account? <a href="{% url 'login' %}">Login</a></p>
+                    </div>
+                </div>
+  
+                <div class="col-md-6 d-none d-md-block h-100" style="background-color: rgb(242, 242, 242); border-radius: 0 1rem 1rem 0;">
+                  <img src="{% static 'images/shopimg.jpg' %}" alt="login form" class="img-fluid" style="border-radius: 0 1rem 1rem 0;" />
+                </div>
+  
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </section>
+</body>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Product</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #f5f7fa;
+        }
+
+        .card {
+            border-radius: 12px;
+        }
+
+        .form-label {
+            font-weight: 500;
+        }
+
+        .required {
+            color: red;
+        }
+
+        .preview-img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            margin-top: 10px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-5">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Add Product</h2>
+        <a href="#" class="btn btn-outline-primary">Back</a>
+    </div>
+
+    <div class="card shadow p-4">
+
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="row">
+
+                <!-- LEFT SIDE -->
+                <div class="col-md-6">
+
+                    <!-- Category -->
+                    <div class="mb-3">
+                        <label class="form-label">Category <span class="required">*</span></label>
+                        <select name="catagory" class="form-select" required>
+                            <option value="">Select Category</option>
+                            {% for cat in catagories %}
+                                <option value="{{ cat.id }}">{{ cat.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Name -->
+                    <div class="mb-3">
+                        <label class="form-label">Product Name <span class="required">*</span></label>
+                        <input type="text" name="name" class="form-control" required>
+                    </div>
+
+                    <!-- Detail Name -->
+                    <div class="mb-3">
+                        <label class="form-label">Detail Name <span class="required">*</span></label>
+                        <input type="text" name="detail_name" class="form-control" required>
+                    </div>
+
+                    <!-- Vendor -->
+                    <div class="mb-3">
+                        <label class="form-label">Vendor <span class="required">*</span></label>
+                        <input type="text" name="vendor" class="form-control" required>
+                    </div>
+
+                    <!-- Ship From -->
+                    <div class="mb-3">
+                        <label class="form-label">Ship From <span class="required">*</span></label>
+                        <input type="text" name="ship_from" class="form-control" required>
+                    </div>
+
+                </div>
+
+                <!-- RIGHT SIDE -->
+                <div class="col-md-6">
+
+                    <!-- Quantity -->
+                    <div class="mb-3">
+                        <label class="form-label">Quantity <span class="required">*</span></label>
+                        <input type="number" name="quantity" class="form-control" required>
+                    </div>
+
+                    <!-- Prices -->
+                    <div class="mb-3">
+                        <label class="form-label">Original Price <span class="required">*</span></label>
+                        <input type="number" name="original_price" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Selling Price <span class="required">*</span></label>
+                        <input type="number" name="selling_price" class="form-control" required>
+                    </div>
+
+                    <!-- Image Upload -->
+                    <div class="mb-3">
+                        <label class="form-label">Product Image</label>
+                        <input type="file" name="image" class="form-control" onchange="previewImage(event)">
+                        <img id="preview" class="preview-img d-none">
+                    </div>
+
+                    <!-- Status -->
+                    <div class="form-check mb-2">
+                        <input type="checkbox" name="status" class="form-check-input" id="status">
+                        <label class="form-check-label">Hidden</label>
+                    </div>
+
+                    <!-- Trending -->
+                    <div class="form-check mb-3">
+                        <input type="checkbox" name="trending" class="form-check-input" id="trending">
+                        <label class="form-check-label">Trending</label>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Description -->
+            <div class="mb-3">
+                <label class="form-label">Description <span class="required">*</span></label>
+                <textarea name="description" rows="3" class="form-control" required></textarea>
+            </div>
+
+            <!-- Payment -->
+            <div class="mb-3">
+                <label class="form-label">Payment <span class="required">*</span></label>
+                <input type="text" name="payment" class="form-control" placeholder="e.g. COD / Online" required>
+            </div>
+
+            <!-- Buttons -->
+            <div class="text-end">
+                <button type="reset" class="btn btn-secondary">Reset</button>
+                <button type="submit" class="btn btn-success">Add Product</button>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<!-- Image Preview Script -->
+<script>
+function previewImage(event) {
+    const preview = document.getElementById('preview');
+    preview.src = URL.createObjectURL(event.target.files[0]);
+    preview.classList.remove('d-none');
+}
+</script>
+
+</body>
+</html>
