@@ -16,28 +16,26 @@ def getFileName(request,filename):
     new_filename="%s%s"%(now_time,filename)
     return os.path.join('uploads/',new_filename)
 
-class Category(models.Model):
+class Catagory(models.Model):
     name=models.CharField(max_length=150, null=False,blank=False)
-    image=models.ImageField(upload_to=getFileName,null=True,blank=True)
+    image=models.ImageField(upload_to=getFileName,default=False,blank=False)
     description=models.CharField(max_length=500,null=False,blank=False)
-    status=models.BooleanField(default=False,help_text="0-show,1-Hidden")
-    trending=models.BooleanField(default=False,help_text="0-default,1-Trending")
     created_at=models.DateTimeField(auto_now_add=True)
 
     def __str__(self) :
         return self.name
    
 class Product(models.Model):
-    catagory=models.ForeignKey(Category,on_delete=models.CASCADE)
+    catagory=models.ForeignKey(Catagory,on_delete=models.CASCADE)
     name=models.CharField(max_length=150, null=False,blank=False)
-    detail_name=models.CharField(max_length=150, null=False,blank=False)
+    detail_name=models.CharField(max_length=1000, null=False,blank=False)
     vendor=models.CharField(max_length=150, null=False,blank=False)
     ship_from=models.CharField(max_length=150, null=False,blank=False)
     quantity=models.IntegerField(null=False,blank=False)
     original_price=models.FloatField(null=False,blank=False)
     selling_price=models.FloatField(null=False,blank=False)
-    product_image=models.ImageField(upload_to=getFileName,null=True,blank=True)
-    description=models.CharField(max_length=500,null=False,blank=False)
+    product_image=models.ImageField(upload_to=getFileName,default=False,blank=False)
+    description=models.CharField(max_length=2000,null=False,blank=False)
     status=models.BooleanField(default=False,help_text="0-show,1-Hidden")
     trending=models.BooleanField(default=False,help_text="0-default,1-Trending")
     created_at=models.DateTimeField(auto_now_add=True)

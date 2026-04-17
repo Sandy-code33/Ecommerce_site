@@ -57,7 +57,7 @@
               <h3 class="text-danger">Out of stock</h3>
               {% endif %}
                 <button class="btn btn-warning w-100" id="btnCart"><i class="fa fa-shopping-cart"></i>Add to Cart</button>
-                <button style="background-color: rgb(255, 145, 0);" id="btnBuy" class="btn w-100 m-2 mx-auto"><i class=""></i>Buy Now</button>
+                <!-- <button class="btn btn-danger"><i class="fa fa-heart"></i></button> -->
             </div>
           </div>
         </div>
@@ -113,6 +113,7 @@ btnCart.addEventListener("click",function(){
     }).then(response => {
       return response.json();
     }).then(data => {
+      //console.log(data);
       alert(data['status']);
     } )
  
@@ -123,8 +124,5 @@ btnCart.addEventListener("click",function(){
  
 })
   }); 
-
-
-  
 </script>
 {% endblock content %}

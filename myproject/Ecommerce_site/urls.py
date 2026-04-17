@@ -25,5 +25,6 @@ urlpatterns=[
     path('my-orders/', views.my_orders, name='my_orders'),
     path('download-invoice/<int:order_id>/', views.download_invoice, name='download_invoice'),
     path('feed/',views.feedback_form, name="feedback"),
-
+    path('addcatagory/',views.add_catagory,name='add_catagory'),
+    path('addproduct/',views.add_product,name='add_product'),
 ]

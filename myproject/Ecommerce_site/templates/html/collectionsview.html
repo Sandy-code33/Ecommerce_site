@@ -8,7 +8,7 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-12">
-        <h4>{{category_name}}</h4>
+        <h4>{{catagory_name}}</h4>
         <hr style="border-color: #b8bfc2;">
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
@@ -21,11 +21,15 @@
       </div>
       <div class="row">
 {% for item in products %}
-        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-3 col-xxl-3 mb-3">
-          <div class="card h-100">
-            <img src="{{item.product_image.url}}"  class="card-image-top mx-auto" alt="{{item.name}}" style="height: 200px; object-fit: contain;">
-          <a href="{% url 'product_details' category_name item.name %}">
-            <div class="card-body">
+     <div class="col-sm-6 col-md-4 col-lg-2 col-xl-2 col-xxl-2 mb-3">
+        <div class="card h-100">
+            {% if item.product_image %}
+          <img src="{{ item.product_image.url }}" class="card-image-top mx-auto" style="height:150px; object-fit:contain;">
+            {% else %}
+          <img src="{% static 'images/no-image.png' %}" class="card-image-top mx-auto" style="height:150px; object-fit:contain;">
+            {% endif %}
+            <!-- <img src="{{item.product_image.url}}"  class="card-image-top mx-auto" alt="{{item.name}}" style="height: 150px; object-fit: contain;"> -->
+          <a href="{% url 'product_details' catagory_name item.name %}">            <div class="card-body">
               <h5 class="card-title">{{item.name}}</h5>
               <p class="card-text">
                 <span class="float-start text-muted text-danger"><s>₹{{ item.original_price }}</s></span>
@@ -33,8 +37,8 @@
               </p>
             </div>
           </a>
-          </div>
         </div>
+      </div>
 {% endfor %}
       </div>
     </div>

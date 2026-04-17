@@ -69,21 +69,24 @@ def logout_view(request):
     return redirect('home')
     
 def collections(request):
-    category=Category.objects.filter(status=0)
-    return render(request,'html/collections.html',{"category":category})
+    catagory=Catagory.objects.all()
+    return render(request,'html/collections.html',{"catagory":catagory})
 
-def collections_view(request,name):
-    if(Category.objects.filter(name=name)):
-        products=Product.objects.filter(catagory__name=name)
-        return render(request,'html/collectionsview.html',{"products":products,"category_name":name})
+def collections_view(request, name):
+    if Catagory.objects.filter(name=name).exists():
+        products = Product.objects.filter(catagory__name=name)
+        return render(request, 'html/collectionsview.html', {
+            "products": products,
+            "catagory_name": name
+        })
     else:
-        messages.warning(request,"No such category found")
-        return redirect('collections_views')
+        messages.warning(request, "No such category found")
+        return redirect('collections')
 
 def product_details(request,cname,pname):
-    if(Category.objects.filter(name=cname,status=0)):
-        if(Product.objects.filter(name=pname,status=0)):
-            products=Product.objects.filter(name=pname,status=0).first()
+    if(Catagory.objects.filter(name=cname)):
+        if(Product.objects.filter(name=pname)):
+            products=Product.objects.filter(name=pname).first()
             return render(request,'html/productdetails.html',{"products":products})
         else:
             messages.error(request,"No such Category Found")
@@ -230,3 +233,52 @@ def download_invoice(request, order_id):
     if pisa_status.err:
         return HttpResponse('Invoice generation failed', status=500)
     return response
+
+def add_catagory(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        image=request.FILES.get('image')
+        description=request.POST.get('description')
+        if name:
+            Catagory.objects.create(name=name, image=image, description=description)
+            messages.success(request, "Catagory added successfully!")
+        else:
+            messages.error(request, "Catagory name cannot be empty.")
+    return render(request, 'html/categoryUI.html', {'catagories': Catagory.objects.all()})
+
+def add_product(request):
+    catagories = Catagory.objects.all()
+    if request.method == "POST":
+        catagory_id = request.POST.get('catagory')
+        catagory = Catagory.objects.get(id=catagory_id)
+        name = request.POST.get('name')
+        detail_name = request.POST.get('detail_name')
+        vendor = request.POST.get('vendor')
+        ship_from = request.POST.get('ship_from')
+        description = request.POST.get('description')
+        payment = request.POST.get('payment')
+        quantity = request.POST.get('quantity')
+        original_price = request.POST.get('original_price')
+        selling_price = request.POST.get('selling_price')
+        image = request.FILES.get('image')
+        status = True if request.POST.get('status') else False
+        trending = True if request.POST.get('trending') else False
+        Product.objects.create(
+            catagory=catagory,
+            name=name,
+            detail_name=detail_name,
+            vendor=vendor,
+            ship_from=ship_from,
+            quantity=quantity,
+            original_price=original_price,
+            selling_price=selling_price,
+            product_image=image,
+            description=description,
+            status=status,
+            trending=trending,
+            payment=payment
+        )
+
+        return redirect('add_product')  # or product list page
+
+    return render(request, 'html/productUI.html', {'catagories': catagories})

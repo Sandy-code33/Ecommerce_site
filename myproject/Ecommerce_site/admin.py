@@ -4,13 +4,13 @@ from .models import *
 # username=Sandy
 # password=root
 
-class CategoryAdmin(admin.ModelAdmin):
+class CatagoryAdmin(admin.ModelAdmin):
     list_display=('name','image','description')
     
 class ProductAdmin(admin.ModelAdmin):
     list_display=('name','catagory','quantity','vendor')
+  
 
 
-
-admin.site.register(Category,CategoryAdmin)
+admin.site.register(Catagory,CatagoryAdmin)
 admin.site.register(Product,ProductAdmin)
