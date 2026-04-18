@@ -1,5 +1,11 @@
+[phases.setup]
+nixPkgs = ["python313", "pkg-config", "mariadb"]
+
 [phases.build]
-cmds = ["pip install -r requirements.txt", "python manage.py collectstatic --noinput"]
+cmds = [
+  "pip install -r requirements.txt",
+  "python manage.py collectstatic --noinput"
+]
 
 [start]
 cmd = "gunicorn myproject.wsgi --log-file -"
