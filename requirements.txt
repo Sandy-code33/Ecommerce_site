@@ -4,6 +4,5 @@ whitenoise
 pymysql
 cloudinary
 django-cloudinary-storage
-django-jazzmin
+python-dotenv
 pillow
-requests
