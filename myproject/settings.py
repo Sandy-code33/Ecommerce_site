@@ -9,7 +9,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(BASE_DIR / ".env")
 
 # SECURITY
-SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-dev-key')
+SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = False
 ALLOWED_HOSTS = ["*"]  # Change to your domain later
 
@@ -76,7 +76,7 @@ DATABASES = {
 
 # CLOUDINARY CONFIG
 cloudinary.config(
-    cloud_name=os.getenv('CLOUD_NAME'),
+    cloud_name=os.getenv('CLOUDINARY_CLOUD_NAME'),
     api_key=os.getenv('API_KEY'),
     api_secret=os.getenv('API_SECRET')
 )
