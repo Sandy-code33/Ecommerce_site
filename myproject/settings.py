@@ -17,15 +17,12 @@ ALLOWED_HOSTS = ["*"]  # Change to your domain later
 INSTALLED_APPS = [
     'jazzmin',
     'cloudinary',
-    'cloudinary_storage',
-
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
     'Ecommerce_site',
 ]
 
@@ -97,11 +94,11 @@ USE_TZ = True
 
 # STATIC + MEDIA (Django 6+)
 STORAGES = {
-    "default": {
-        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",  # media only
-    },
     "staticfiles": {
-        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",  # local static
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
     },
 }
 
