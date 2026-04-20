@@ -12,7 +12,8 @@ from .models import Address
 from .forms import AddressForm
 from django.db import transaction
 from django.template.loader import get_template
-from xhtml2pdf import pisa
+from weasyprint import HTML
+#from xhtml2pdf import pisa
 from .models import Feedback
 
 from .models import Cart, Address, Order, OrderItem   # make sure Order/OrderItem exist
@@ -216,22 +217,33 @@ def my_orders(request):
     orders = Order.objects.filter(user=request.user).order_by('-created_at')
     return render(request, 'html/my_orders.html', {'orders': orders})
 
+
+# def download_invoice(request, order_id):
+#     order = get_object_or_404(Order, id=order_id, user=request.user)
+#     template_path = 'html/invoice_template.html'
+#     context = {'order': order}
+
+#     response = HttpResponse(content_type='application/pdf')
+#     response['Content-Disposition'] = f'attachment; filename="invoice_{order.id}.pdf"'
+
+#     template = get_template(template_path)
+#     html = template.render(context)
+
+#     pisa_status = pisa.CreatePDF(html, dest=response)
+
+#     if pisa_status.err:
+#         return HttpResponse('Invoice generation failed', status=500)
+#     return response
 @login_required
 def download_invoice(request, order_id):
     order = get_object_or_404(Order, id=order_id, user=request.user)
-    template_path = 'html/invoice_template.html'
-    context = {'order': order}
+    template = get_template('html/invoice_template.html')
+    html = template.render({'order': order})
 
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = f'attachment; filename="invoice_{order.id}.pdf"'
 
-    template = get_template(template_path)
-    html = template.render(context)
-
-    pisa_status = pisa.CreatePDF(html, dest=response)
-
-    if pisa_status.err:
-        return HttpResponse('Invoice generation failed', status=500)
+    HTML(string=html).write_pdf(response)
     return response
 
 def add_catagory(request):
