@@ -6,4 +6,4 @@ cloudinary
 django-cloudinary-storage
 python-dotenv
 pillow
-jazzmin
+django-jazzmin
