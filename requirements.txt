@@ -3,7 +3,7 @@ gunicorn
 whitenoise
 pymysql
 cloudinary
-django-cloudinary-storage
+django-cloudinary-storage==0.3.0
 python-dotenv
 pillow
 django-jazzmin
