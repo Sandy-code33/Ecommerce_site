@@ -12,11 +12,10 @@ from .models import Address
 from .forms import AddressForm
 from django.db import transaction
 from django.template.loader import get_template
-from weasyprint import HTML
-#from xhtml2pdf import pisa
 from .models import Feedback
-
 from .models import Cart, Address, Order, OrderItem   # make sure Order/OrderItem exist
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import A4
 # Create your views here.
 
 def home(request):
@@ -237,13 +236,59 @@ def my_orders(request):
 @login_required
 def download_invoice(request, order_id):
     order = get_object_or_404(Order, id=order_id, user=request.user)
-    template = get_template('html/invoice_template.html')
-    html = template.render({'order': order})
 
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = f'attachment; filename="invoice_{order.id}.pdf"'
 
-    HTML(string=html).write_pdf(response)
+    p = canvas.Canvas(response, pagesize=A4)
+    width, height = A4
+
+    # Header
+    p.setFont("Helvetica-Bold", 20)
+    p.drawString(50, height - 50, "INVOICE")
+
+    p.setFont("Helvetica", 12)
+    p.drawString(50, height - 90, f"Order ID   : #{order.id}")
+    p.drawString(50, height - 110, f"Customer   : {order.user.username}")
+    p.drawString(50, height - 130, f"Date       : {order.created_at.strftime('%d %b %Y')}")
+    p.drawString(50, height - 150, f"Payment    : {order.get_payment_method_display()}")
+    p.drawString(50, height - 170, f"Status     : {order.get_status_display()}")
+
+    # Delivery Address
+    addr = order.address
+    p.drawString(50, height - 200, f"Address    : {addr}")
+
+    # Table Header
+    y = height - 240
+    p.setFont("Helvetica-Bold", 11)
+    p.drawString(50, y, "Product")
+    p.drawString(280, y, "Qty")
+    p.drawString(340, y, "Unit Price")
+    p.drawString(440, y, "Subtotal")
+    p.line(50, y - 5, 550, y - 5)
+    y -= 25
+
+    # Order Items
+    p.setFont("Helvetica", 11)
+    for item in order.items.all():
+        p.drawString(50, y, str(item.product.name)[:35])  # truncate long names
+        p.drawString(280, y, str(item.quantity))
+        p.drawString(340, y, f"Rs. {item.price}")
+        p.drawString(440, y, f"Rs. {item.subtotal}")
+        y -= 20
+        if y < 100:  # new page if running out of space
+            p.showPage()
+            y = height - 50
+
+    # Grand Total
+    p.line(50, y - 5, 550, y - 5)
+    y -= 25
+    p.setFont("Helvetica-Bold", 12)
+    p.drawString(340, y, "Grand Total:")
+    p.drawString(440, y, f"Rs. {order.total_amount}")
+
+    p.showPage()
+    p.save()
     return response
 
 def add_catagory(request):

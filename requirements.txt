@@ -6,4 +6,4 @@ cloudinary
 python-dotenv
 pillow
 django-jazzmin
-weasyprint
+reportlab
