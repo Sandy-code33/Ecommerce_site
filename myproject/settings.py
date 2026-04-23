@@ -59,6 +59,15 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'myproject.wsgi.application'
 
+# Temporary debug - remove after fixing
+print("=== DB DEBUG ===")
+print("MYSQLDATABASE:", os.getenv('MYSQLDATABASE'))
+print("MYSQLHOST:", os.getenv('MYSQLHOST'))
+print("MYSQLPORT:", os.getenv('MYSQLPORT'))
+print("================")
+
+
+
 # DATABASE (Railway MySQL)
 DATABASES = {
     'default': {
@@ -68,6 +77,10 @@ DATABASES = {
         'PASSWORD': os.getenv('MYSQLPASSWORD'),
         'HOST': os.getenv('MYSQLHOST'),
         'PORT': os.getenv('MYSQLPORT'),
+        'OPTIONS': {
+            'auth_plugin': 'mysql_native_password',  # just a plugin name, not a password
+            'ssl_disabled': True,
+        },
     }
 }
 
