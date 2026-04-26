@@ -59,24 +59,17 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'myproject.wsgi.application'
 
-# Temporary debug - remove after fixing
-print("=== DB DEBUG ===")
-print("MYSQLDATABASE:", os.getenv('MYSQLDATABASE'))
-print("MYSQLHOST:", os.getenv('MYSQLHOST'))
-print("MYSQLPORT:", os.getenv('MYSQLPORT'))
-print("================")
-
 
 
 # DATABASE (Railway MySQL)
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.getenv('MYSQLDATABASE'),
-        'USER': os.getenv('MYSQLUSER'),
-        'PASSWORD': os.getenv('MYSQLPASSWORD'),
-        'HOST': os.getenv('MYSQLHOST'),
-        'PORT': os.getenv('MYSQLPORT'),
+        'NAME': os.getenv('MYSQLDATABASE','railway'),
+        'USER': os.getenv('MYSQLUSER','root'),
+        'PASSWORD': os.getenv('MYSQLPASSWORD','XmZGlgVqPNoOVScZYkqicNsHQSgJhksv'),
+        'HOST': os.getenv('MYSQLHOST','nozomi.proxy.rlwy.net'),
+        'PORT': os.getenv('MYSQLPORT','58048'),
         'OPTIONS': {
             'auth_plugin': 'mysql_native_password',  # just a plugin name, not a password
             'ssl_disabled': True,
