@@ -2,7 +2,8 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 import cloudinary
-
+import cloudinary.uploader
+import cloudinary.api
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Load environment variables
@@ -110,10 +111,10 @@ USE_TZ = True
 # STATIC + MEDIA (Django 6+)
 STORAGES = {
     "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
     "default": {
-        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",  # fixed
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",  # ← must be this
     },
 }
 
