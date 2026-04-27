@@ -110,10 +110,10 @@ USE_TZ = True
 # STATIC + MEDIA (Django 6+)
 STORAGES = {
     "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",  # ← remove Manifest
+        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
     },
     "default": {
-        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+        "BACKEND": "django.core.files.storage.FileSystemStorage",  # ← use this temporarily
     },
 }
 
