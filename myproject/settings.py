@@ -114,7 +114,7 @@ STORAGES = {
         "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
     },
     "default": {
-        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",  # ← fix this
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
     },
 }
 
