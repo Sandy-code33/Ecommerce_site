@@ -12,11 +12,6 @@ class Feedback(models.Model):
     def __str__(self):
         return f"{self.rating} - {self.remark[:20]}"
 
-def getFileName(request,filename):
-    now_time=datetime.datetime.now().strftime("%Y%m%d%H:%M:%S")
-    new_filename="%s%s"%(now_time,filename)
-    return os.path.join('uploads/',new_filename)
-
 class Catagory(models.Model):
     name=models.CharField(max_length=150, null=False,blank=False)
     image = CloudinaryField('image') 

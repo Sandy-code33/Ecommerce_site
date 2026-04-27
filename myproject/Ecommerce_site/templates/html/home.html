@@ -1,5 +1,6 @@
 {% extends 'html/layout.html' %}
 {% load static %}
+{% load cloudinary %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -163,21 +164,23 @@
         <h3>Exclusive Trending Deals</h3>
         <hr style="border-color: #b8bfc2;">
       {% for item in products %}
-        <div class="col-sm-2 col-md-6 col-lg-2 col-xxl-2 mb-3">
-          <div class="card h-100">
-            <img src="{% if item.product_image %}{{ item.product_image.url }}{% else %}{% static 'images/default.png' %}{% endif %}"  class="card-image-top" alt="{{item.name}}" style="height: 150px; object-fit: contain;">
-              <a href="{% url 'product_details' item.catagory.name item.name %}" style="text-decoration: none; color: black;">
-                <div class="card-body">
-                  <p class="card-title">{{item.name}}</p>
-                  <p class="card-text">
-                    <span class="float-start text-muted text-danger"><s>₹{{ item.original_price }}</s></span>
-                    <span class="float-end text-success fw-bold">₹{{item.selling_price}}</span>
-                  </p>
-                </div>
-              </a>
+  <div class="col-sm-2 col-md-6 col-lg-2 col-xxl-2 mb-3">
+    <div class="card h-100">
+      <img src="{{ item.product_image.url }}" 
+           class="card-image-top" alt="{{item.name}}" 
+           style="height: 150px; object-fit: contain;">
+        <a href="{% url 'product_details' item.catagory.name item.name %}" style="text-decoration: none; color: black;">
+          <div class="card-body">
+            <p class="card-title">{{item.name}}</p>
+            <p class="card-text">
+              <span class="float-start text-muted text-danger"><s>₹{{ item.original_price }}</s></span>
+              <span class="float-end text-success fw-bold">₹{{item.selling_price}}</span>
+            </p>
           </div>
-        </div>
-      {% endfor %}
+        </a>
+    </div>
+  </div>
+{% endfor %}
   </div>
 </div>
 
