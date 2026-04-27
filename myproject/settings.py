@@ -65,11 +65,11 @@ WSGI_APPLICATION = 'myproject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.getenv('MYSQLDATABASE','railway'),
-        'USER': os.getenv('MYSQLUSER','root'),
-        'PASSWORD': os.getenv('MYSQLPASSWORD','XmZGlgVqPNoOVScZYkqicNsHQSgJhksv'),
-        'HOST': os.getenv('MYSQLHOST','nozomi.proxy.rlwy.net'),
-        'PORT': os.getenv('MYSQLPORT','58048'),
+        'NAME': os.getenv('MYSQLDATABASE') or os.getenv('railway') or 'railway',
+        'USER': os.getenv('MYSQLUSER') or os.getenv('root') or 'root',
+        'PASSWORD': os.getenv('MYSQLPASSWORD') or os.getenv('XmZGlgVqPNoOVScZYkqicNsHQSgJhksv') or 'XmZGlgVqPNoOVScZYkqicNsHQSgJhksv',
+        'HOST': os.getenv('MYSQLHOST')or os.getenv('nozomi.proxy.rlwy.net') or 'nozomi.proxy.rlwy.net',
+        'PORT': os.getenv('MYSQLPORT') or os.getenv('58048') or '58048',
         'OPTIONS': {
             'ssl': {'ssl_disabled': True},
             'connect_timeout': 30,
