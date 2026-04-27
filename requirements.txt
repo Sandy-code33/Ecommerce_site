@@ -7,3 +7,4 @@ python-dotenv
 pillow
 django-jazzmin
 reportlab
+django-cloudinary-storage
