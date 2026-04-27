@@ -11,7 +11,15 @@ load_dotenv(BASE_DIR / ".env")
 # SECURITY
 SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = False
-ALLOWED_HOSTS = ["*"]  # Change to your domain later
+ALLOWED_HOSTS = ['localhost',
+    '127.0.0.1',
+    'ecommercesite-production-9595.up.railway.app',  # Railway domain
+    '*', ]  # Change domain later
+
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://ecommercesite-production-9595.up.railway.app',  # my Railway domain
+]
 
 # APPLICATIONS
 INSTALLED_APPS = [
