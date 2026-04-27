@@ -25,6 +25,7 @@ CSRF_TRUSTED_ORIGINS = [
 INSTALLED_APPS = [
     'jazzmin',
     'cloudinary',
+    'cloudinary_storage',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -88,8 +89,8 @@ DATABASES = {
 # CLOUDINARY CONFIG
 cloudinary.config(
     cloud_name=os.getenv('CLOUDINARY_CLOUD_NAME'),
-    api_key=os.getenv('API_KEY'),
-    api_secret=os.getenv('API_SECRET')
+    api_key=os.getenv('CLOUDINARY_API_KEY'),
+    api_secret=os.getenv('CLOUDINARY_API_SECRET')
 )
 
 # PASSWORD VALIDATION
@@ -112,11 +113,11 @@ STORAGES = {
         "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
     },
     "default": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage",
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",  # fixed
     },
 }
 
-
+MEDIA_URL = '/media/'
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]  # only if you have a static/ folder
