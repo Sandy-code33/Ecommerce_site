@@ -71,8 +71,8 @@ DATABASES = {
         'HOST': os.getenv('MYSQLHOST','nozomi.proxy.rlwy.net'),
         'PORT': os.getenv('MYSQLPORT','58048'),
         'OPTIONS': {
-            'auth_plugin': 'mysql_native_password',  # just a plugin name, not a password
-            'ssl_disabled': True,
+            'ssl': {'ssl_disabled': True},
+            'connect_timeout': 30,
         },
     }
 }
