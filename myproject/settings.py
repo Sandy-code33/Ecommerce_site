@@ -26,6 +26,7 @@ CSRF_TRUSTED_ORIGINS = [
 INSTALLED_APPS = [
     'jazzmin',
     'cloudinary',
+    'cloudinary_storage', 
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -87,11 +88,11 @@ DATABASES = {
 }
 
 # CLOUDINARY CONFIG
-cloudinary.config(
-    cloud_name=os.getenv('CLOUDINARY_CLOUD_NAME'),
-    api_key=os.getenv('CLOUDINARY_API_KEY'),
-    api_secret=os.getenv('CLOUDINARY_API_SECRET')
-)
+CLOUDINARY_STORAGE = {
+    'CLOUDINARY_CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'),
+    'CLOUDINARY_API_KEY': os.getenv('CLOUDINARY_API_KEY'),
+    'CLOUDINARY_API_SECRET': os.getenv('CLOUDINARY_API_SECRET'),
+}
 
 # PASSWORD VALIDATION
 AUTH_PASSWORD_VALIDATORS = [
@@ -113,7 +114,7 @@ STORAGES = {
         "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
     },
     "default": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage",  # ← use this temporarily
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",  # ← fix this
     },
 }
 
