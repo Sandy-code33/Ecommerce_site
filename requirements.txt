@@ -2,9 +2,8 @@ Django==5.1.4
 gunicorn
 whitenoise
 pymysql
-cloudinary
+cloudinary>=1.36.0
 python-dotenv
 pillow
 django-jazzmin
 reportlab
-django-cloudinary-storage

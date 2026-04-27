@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 import datetime
 import os
+from cloudinary.models import CloudinaryField
 # Create your models here.
 
 class Feedback(models.Model):
@@ -18,7 +19,7 @@ def getFileName(request,filename):
 
 class Catagory(models.Model):
     name=models.CharField(max_length=150, null=False,blank=False)
-    image=models.ImageField(upload_to=getFileName,default=False,blank=False)
+    image = CloudinaryField('image') 
     description=models.CharField(max_length=500,null=False,blank=False)
     created_at=models.DateTimeField(auto_now_add=True)
 
@@ -34,7 +35,7 @@ class Product(models.Model):
     quantity=models.IntegerField(null=False,blank=False)
     original_price=models.FloatField(null=False,blank=False)
     selling_price=models.FloatField(null=False,blank=False)
-    product_image=models.ImageField(upload_to=getFileName,default=False,blank=False)
+    product_image = CloudinaryField('image')
     description=models.CharField(max_length=2000,null=False,blank=False)
     status=models.BooleanField(default=False,help_text="0-show,1-Hidden")
     trending=models.BooleanField(default=False,help_text="0-default,1-Trending")
