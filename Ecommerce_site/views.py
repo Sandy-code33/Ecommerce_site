@@ -16,11 +16,23 @@ from .models import Feedback
 from .models import Cart, Address, Order, OrderItem   # make sure Order/OrderItem exist
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
+from cloudinary.utils import cloudinary_url
 # Create your views here.
 
 def home(request):
-    products=Product.objects.filter(trending=1)
-    return render(request,'html/home.html',{"products":products})
+    products = Product.objects.filter(trending=True)
+    
+    # Build Cloudinary URLs for each product
+    for product in products:
+        if product.product_image:
+            product.image_url, _ = cloudinary_url(
+                str(product.product_image),
+                width=300, height=300, crop="fill"
+            )
+        else:
+            product.image_url = None
+    
+    return render(request, 'html/home.html', {'products': products})
 
 def feedback_form(request):
     if request.user.is_authenticated:
