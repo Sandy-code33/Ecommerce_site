@@ -11,7 +11,7 @@ load_dotenv(BASE_DIR / ".env")
 
 # SECURITY
 SECRET_KEY = os.getenv('SECRET_KEY')
-DEBUG = False
+DEBUG = True
 ALLOWED_HOSTS = ['localhost',
     '127.0.0.1',
     'ecommercesite-production-9595.up.railway.app',  # Railway domain
